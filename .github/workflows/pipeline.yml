@@ -1,0 +1,123 @@
+name: Build and Deploy Python app to Azure
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AZURE_WEBAPP_NAME: "managercalculator" # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: "src\\api" # set this to the path to your web app project, defaults to the repository root
+  PYTHON_VERSION: "3.10.2" # set this to the python version to use
+  RESOURCEGROUPNAME: "managercalculator-rg"
+  LOCATION: "Brazil South"
+  HOSTINGPLANNAME: "managercalculator-plan"
+  APPINSIGHTLOCATION: "Brazil South"
+  SKU: "S1 Standard"
+
+jobs:
+  Test:
+    name: Montar ambiente de testes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install python version
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: install mypy
+        run: pip install -U mypy
+
+      - name: install flake8
+        run: pip install -U flake8
+
+      - name: Install autopep8
+        run: pip install -U autopep8
+
+      - name: Install uptime
+        run: pip install -U uptime
+
+      - name: install Flask
+        run: pip install -U Flask
+
+  Deploy:
+    name: Deploy to azure web app
+    needs: Test
+    runs-on: ubuntu-latest
+    steps:
+      # Downloading build artifact
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v2
+        continue-on-error: false
+        with:
+          name: buildartifacts
+          path: buildartifacts
+
+      # Unzipping build artifacts
+      - name: Unzipping Build Artifact
+        run: |
+          unzip -qq ./buildartifacts/Application.zip -d .
+
+      # Downloading Arm Template
+      - name: Download Arm Template
+        uses: actions/download-artifact@v2
+        continue-on-error: false
+        with:
+          name: deploymenttemplates
+          path: deploymenttemplates
+
+      # Unzipping Arm Template directory
+      - name: Unzipping ARM template
+        run: |
+          unzip -qq ./deploymenttemplates/ArmTemplates.zip -d .
+
+      # Azure Login
+      - name: Azure Login
+        uses: azure/login@v1
+        continue-on-error: false
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy ARM Template
+      - name: Deploy ARM Template
+        uses: azure/CLI@v1
+        continue-on-error: false
+        with:
+          inlineScript: |
+            az group create --name "${{ env.RESOURCEGROUPNAME }}" --location "${{ env.LOCATION }}"
+            az deployment group create --resource-group "${{ env.RESOURCEGROUPNAME }}" --template-file ./ArmTemplates/linux-python-webapp-template.json --parameters webAppName="${{ env.AZURE_WEBAPP_NAME }}" hostingPlanName="${{ env.HOSTINGPLANNAME }}" appInsightsLocation="${{ env.APPINSIGHTLOCATION }}" sku="${{ env.SKU }}"
+
+      # Deploy web app
+      - name: "Deploy to Azure WebApp"
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+  # FunctionalTests:
+  #   name: Run Functional tests
+  #   runs-on: windows-latest
+  #   needs: Deploy
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Use Python ${{ env.PYTHON_VERSION }}
+  #     uses: actions/setup-python@v2
+  #     with:
+  #       python-version: ${{ env.PYTHON_VERSION }}
+
+  #   # Run functional tests
+  #   - name: Run Functional tests
+  #     continue-on-error: false
+  #     run: |
+  #       mkdir functionaltestresults
+  #       pip install wheel && pip install selenium && pip install pytest==4.6.11 && cd ./Tests && python -m pytest functional_tests/ --webAppUrl=https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/ --junitxml=../functionaltestresults/functional-test-results.xml
+
+  #   # Uploading functional test results to artifact store
+  #   - name: Upload functional test results to Artifact
+  #     continue-on-error: false
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: FunctionalTestResults
+  #       path: ./functionaltestresults/functional-test-results.xml
