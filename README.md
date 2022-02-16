@@ -14,9 +14,11 @@ Foi criado uma Api Rest, utilizando os seguintes recursos:
 
 - Arquetetura em camadas: Test, Src;
 
-- Pipeline: Azure DevOps
+- Pipeline: Github Actions
 
 - Cloud: Azure
+
+- Documentação: Open API - Swagger
 
 Funcionalidades implementadas:
 
@@ -64,13 +66,35 @@ Responsável por representar conceitos, informações e regras sobre a situaçã
 
 Responsável por mostrar informações ao usuário e interpretar os comandos do usuário. O agente externo pode, as vezes, ser outro sistema de computador em vez de usuário.
        
- ---
- 
+---
+
+## Pipeline
+
+- ### github actions
+
+No GitHub Actions, um fluxo de trabalho é um processo automatizado que você configura no repositório do GitHub. Você pode criar, testar, empacotar, lançar ou implantar qualquer projeto no GitHub com um fluxo de trabalho.
+
+---
+
+## Cloud
+
+- ### azure
+
+O Microsoft Azure é uma plataforma destinada à execução de aplicativos e serviços, baseada nos conceitos da computação em nuvem.
+
+## Documentação
+
+- ### swagger
+
+Swagger é uma linguagem de descrição de interface para descrever APIs RESTful expressas usando JSON. O Swagger é usado junto com um conjunto de ferramentas de software de código aberto para projetar, construir, documentar e usar serviços da Web RESTful.
+
+link da documentação do projeto: https://app.swaggerhub.com/apis-docs/ZoeStyle/ManagerCalculator/1.0.0
+
 # Como executar o projeto ?
 
 ## Rodando o projeto localmente
 
-1 - Verifique se o computador possui python instalado e qual a versão executando o comando abaixo caso o mesmo esteja com uma versão diferente da 3.10x, será necessário realizar a atualização/instalação para que o projeto execute corretamente;
+1 - Verifique se o computador possui python instalado e qual a versão executando o comando abaixo caso o mesmo esteja com uma versão diferente da 3.x, será necessário realizar a atualização/instalação para que o projeto execute corretamente;
 
 Comando para validar a versão do python:
 
@@ -92,7 +116,7 @@ Link para passo-a-passo de como atualizar/instalar a linguagem no seu computador
 
 - Linux:
 ~~~ bash
-sudo apt-get install python 3.10.2
+sudo apt-get install python 3.9.7
 ~~~
 
 ---
