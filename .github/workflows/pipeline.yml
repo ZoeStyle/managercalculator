@@ -34,7 +34,7 @@ jobs:
           pip install -U Flask
 
       - name: Unittest
-        run: py -m unittest discover
+        run: python3 -m unittest discover
 
       - name: Building web app
         uses: azure/appservice-build@v2-beta
