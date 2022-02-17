@@ -21,6 +21,5 @@ async def test_bhaskara(request: dict[str, Any]):
     return bhaskara_handle(request)
 
 if __name__ == "__main__":
-    port = 5555
     host = '0.0.0.0'
-    app.run(host=host, port=port)
+    app.run(host=host)
