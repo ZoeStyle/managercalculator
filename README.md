@@ -88,7 +88,7 @@ O Microsoft Azure é uma plataforma destinada à execução de aplicativos e ser
 
 Swagger é uma linguagem de descrição de interface para descrever APIs RESTful expressas usando JSON. O Swagger é usado junto com um conjunto de ferramentas de software de código aberto para projetar, construir, documentar e usar serviços da Web RESTful.
 
-link da documentação do projeto: https://app.swaggerhub.com/apis-docs/ZoeStyle/ManagerCalculator/1.0.0
+link da documentação do projeto: https://app.swaggerhub.com/apis-docs/ZoeStyle/Hernandes/1.0.0
 
 # Como executar o projeto ?
 
