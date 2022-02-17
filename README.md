@@ -131,10 +131,10 @@ git clone https://github.com/ZoeStyle/calculator.git
 
 Windows:
 ~~~~bash
-python -u "DIRETORIO\calculation\src\api\main.py"
+python -m flask run
 ~~~~
 
 Linux/Mac:
 ~~~~bash
-python3 -u "DIRETORIO\calculation\src\api\main.py"
+python3 -m flask run
 ~~~~
