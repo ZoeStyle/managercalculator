@@ -32,49 +32,49 @@ jobs:
       - name: Unittest
         run: python3 -m unittest discover
 
-      - name: Building web app
-        uses: azure/appservice-build@v2
-        with:
-          source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-          output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      # - name: Building web app
+      #   uses: azure/appservice-build@v2
+      #   with:
+      #     source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH_IN }}
+      #     output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH_OUT }}
 
-      - name: Creating artifact directories
-        run: |
-          mkdir buildartifacts
-          mkdir deploymenttemplates
+      # - name: Creating artifact directories
+      #   run: |
+      #     mkdir buildartifacts
+      #     mkdir deploymenttemplates
 
-      - name: Archive build artifact
-        run: |
-          zip -qq -r ./buildartifacts/Application.zip ./src
+      # - name: Archive build artifact
+      #   run: |
+      #     zip -qq -r ./buildartifacts/Application.zip ./src
 
-      - name: Uploading application to artifact store
-        continue-on-error: false
-        uses: actions/upload-artifact@v2
-        with:
-          name: buildartifacts
-          path: buildartifacts
+      # - name: Uploading application to artifact store
+      #   continue-on-error: false
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: buildartifacts
+      #     path: buildartifacts
 
-      - name: Uploading Arm Template to artifact store
-        continue-on-error: false
-        uses: actions/upload-artifact@v2
-        with:
-          name: deploymenttemplates
-          path: deploymenttemplates
+      # - name: Uploading Arm Template to artifact store
+      #   continue-on-error: false
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: deploymenttemplates
+      #     path: deploymenttemplates
 
   Deploy:
     name: Deploy to azure web app
     needs: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Downloading build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: buildartifacts
-          path: buildartifacts
+      # - name: Downloading build artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: buildartifacts
+      #     path: buildartifacts
 
-      - name: Unzipping build artifacts
-        run: |
-          unzip -qq ./buildartifacts/Application.zip -d .
+      # - name: Unzipping build artifacts
+      #   run: |
+      #     unzip -qq ./buildartifacts/Application.zip -d .
 
       - name: Azure Login
         uses: azure/login@v1
