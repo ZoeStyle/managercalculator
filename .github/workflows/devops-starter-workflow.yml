@@ -6,8 +6,9 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: "managercalculator" # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: "src/api" # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: "./src/api" # set this to the path to your web app project, defaults to the repository root
   PYTHON_VERSION: "3.9.7" # set this to the python version to use
+  STARTUP_COMMAND: "" # set this to the startup command required to start the gunicorn server. default it is empty
 
 jobs:
   Build:
@@ -32,7 +33,7 @@ jobs:
         run: python3 -m unittest discover
 
       - name: Building web app
-        uses: azure/appservice-build@v2-beta
+        uses: azure/appservice-build@v2
         with:
           source-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           output-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
@@ -86,3 +87,8 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          startup-command: ${{ env.STARTUP_COMMAND }}
+
+      - name: logout
+        run: |
+          az logout
