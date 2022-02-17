@@ -1,7 +1,6 @@
 from datetime import date
 from uptime import uptime
-from typing import Any
-from flask import Flask
+from flask import Flask, request
 from src.domain.handlers.bhaskara_handler import bhaskara_handle
 
 app = Flask(__name__)
@@ -17,8 +16,8 @@ async def read_root():
 
 
 @app.route('/1/bhaskara', methods=['POST'])
-async def test_bhaskara(request: dict[str, Any]):
-    return bhaskara_handle(request)
+async def test_bhaskara():
+    return bhaskara_handle(request.get_json())
 
 if __name__ == "__main__":
     host = '0.0.0.0'
