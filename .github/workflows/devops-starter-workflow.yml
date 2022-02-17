@@ -1,4 +1,4 @@
-name: Build and Deploy Python app to Azure
+name: Build and Deploy
 on:
   push:
     branches:

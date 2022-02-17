@@ -10,7 +10,7 @@ Foi criado uma Api Rest, utilizando os seguintes recursos:
 
 - Linguagem: Python;
 
-- Frameworks/Bibliotecas: Unittest e FastAPI;
+- Frameworks/Bibliotecas: Unittest e Flask;
 
 - Arquetetura em camadas: Test, Src;
 
