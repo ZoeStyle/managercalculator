@@ -1,9 +1,5 @@
 # calculator
 
-![Pipeline](https://github.com/lucasmarques73/node-api-heroku/workflows/Pipeline/badge.svg) 
-
----
-
 Projeto realizado para gerenciamento de calculos matemáticos
 
 Foi criado uma Api Rest, utilizando os seguintes recursos:
@@ -127,7 +123,7 @@ sudo apt-get install python 3.9.7
 git clone https://github.com/ZoeStyle/calculator.git
 ~~~~
 
-3 - Navegue ate a pasta api dentro do projeto e execute o seguinte comando:
+3 - Navegue ate a pasta do projeto e execute o seguinte comando:
 
 Windows:
 ~~~~bash
