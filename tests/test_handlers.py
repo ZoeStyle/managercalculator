@@ -5,7 +5,7 @@ from src.domain.handlers.bhaskara_handler import bhaskara_handle
 class bhaskara_handler(unittest.TestCase):
 
     def test_invalid_request(self):
-        result = bhaskara_handle(None)
+        result = bhaskara_handle(None, 1)
         self.assertEqual(result['status'], False)
         self.assertEqual(
             result['message'],
@@ -16,7 +16,7 @@ class bhaskara_handler(unittest.TestCase):
             'valueA': 10,
             'valueB': 5
         }
-        result = bhaskara_handle(dict)
+        result = bhaskara_handle(dict, 1)
         self.assertEqual(result['status'], False)
         self.assertEqual(
             result['message'],
