@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Any
 from src.domain.entities.equation import equation
+from src.logger.logger import error, info
 
 
 def check_key(dict: dict[str, Any], key: str) -> bool:
@@ -19,21 +20,23 @@ def is_valid_request(dict: dict[str, Any]) -> bool:
 
 
 def assemble_equation(valueA: float, valueB: float,
-                      valueC: float) -> dict[str, Any]:
-    return equation(valueA, valueB, valueC)
+                      valueC: float, uptime: float) -> dict[str, Any]:
+    return equation(valueA, valueB, valueC, uptime)
 
 
-def bhaskara_handle(req: dict[str, Any]) -> dict[str, Any]:
+def bhaskara_handle(req: dict[str, Any], uptime: float) -> dict[str, Any]:
     if is_valid_request(req):
+        info(str(req), uptime)
         if is_valid_parameters(req):
             return assemble_equation(
-                req['valueA'], req['valueB'], req['valueC'])
+                req['valueA'], req['valueB'], req['valueC'], uptime)
         else:
             msg = {
                 'status': False,
                 'date': date.today(),
                 'message': 'It is necessary to inform something in the request'
             }
+        error(str(msg), uptime)
         return msg
     else:
         msg = {
@@ -42,4 +45,5 @@ def bhaskara_handle(req: dict[str, Any]) -> dict[str, Any]:
             'message':
                 'It is mandatory to inform the valueA and valueB and valueC'
         }
+        error(str(msg), uptime)
         return msg
