@@ -16,4 +16,9 @@ async def read_root():
 @app.route('/1/bhaskara', methods=['POST'])
 async def test_bhaskara():
     post_data = request_data.get_json()
-    return bhaskara_handle(post_data)
+    result = bhaskara_handle(post_data, uptime())
+
+    if result['status']:
+        return result, 200
+
+    return result, 400

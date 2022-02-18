@@ -1,6 +1,7 @@
 from datetime import date
 import math
 from typing import Any
+from src.logger.logger import error, info
 
 
 def is_valid(valueA: float) -> bool:
@@ -43,7 +44,8 @@ def calculate_x(valueA: float, valueB: float, delta: float) -> dict[str, Any]:
     }
 
 
-def equation(valueA: float, valueB: float, valueC: float) -> dict[str, Any]:
+def equation(valueA: float, valueB: float, valueC: float,
+             uptime: float) -> dict[str, Any]:
     if is_valid(valueA):
         value_delta = delta(valueA, valueB, valueC)
 
@@ -53,6 +55,7 @@ def equation(valueA: float, valueB: float, valueC: float) -> dict[str, Any]:
                 'date': date.today(),
                 'message': 'The values entered are not real roots'
             }
+            error(str(msg), uptime)
             return msg
 
         if validate_if_valueB_and_C_equal_to_0(valueB, valueC):
@@ -61,6 +64,7 @@ def equation(valueA: float, valueB: float, valueC: float) -> dict[str, Any]:
                 'date': date.today(),
                 'message': 'ValueB and valueC are set to zero'
             }
+            error(str(msg), uptime)
             return msg
 
         msg = {
@@ -68,6 +72,7 @@ def equation(valueA: float, valueB: float, valueC: float) -> dict[str, Any]:
             'date': date.today(),
             'message': calculate_x(valueA, valueB, value_delta)
         }
+        info(str(msg), uptime)
         return msg
     else:
         msg = {
@@ -75,4 +80,5 @@ def equation(valueA: float, valueB: float, valueC: float) -> dict[str, Any]:
             'date': date.today(),
             'message': "It's not a quadratic equation!"
         }
+        error(str(msg), uptime)
         return msg

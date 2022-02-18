@@ -1,16 +1,20 @@
 import logging
 
 
-def info(msg: str):
-    logging.basicConfig(filename='info.log', level=logging.INFO)
-    logging.info(msg)
+def mount_message_log(msg: str, code: float) -> str:
+    return str({
+        'id': code,
+        'message': msg
+    })
 
 
-def error(msg: str):
-    logging.basicConfig(filename='error.log', level=logging.ERROR)
-    logging.error(msg)
+def info(msg: str, code: float):
+    logging.basicConfig(filename='app.log',
+                        level=logging.INFO, encoding='utf-8')
+    logging.info(mount_message_log(msg, code))
 
 
-def warning(msg: str):
-    logging.basicConfig(filename='warning.log', level=logging.WARNING)
-    logging.warning(msg)
+def error(msg: str, code: float):
+    logging.basicConfig(filename='app.log',
+                        level=logging.ERROR, encoding='utf-8')
+    logging.error(mount_message_log(msg, code))
